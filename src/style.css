@@ -1,0 +1,118 @@
+* {
+    box-sizing: border-box;
+}
+.wrapper {
+    margin: 0 auto;
+    width: 1060px;
+}
+
+.textarea {
+    margin-top: 100px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.key {
+    width: 60px;
+    height: 59px;
+    background: #343434;
+    box-shadow: 0px 5px 4px rgba(0, 26, 255, 0.25);
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 39px;
+    color: #4b59d7;
+}
+.key:hover {
+    background: #343434;
+    box-shadow: 0px 0px 5px 5px rgba(0, 26, 255, 0.3);
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.arrow-up {
+    height: 27px;
+}
+
+.arrow-down {
+    height: 27px;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+    background: #abbec6;
+    border: 2px solid #898989;
+    box-sizing: border-box;
+    border-radius: 28px;
+    padding: 68px 28px 103px;
+    margin-top: 80px;
+}
+
+.keyboard-row {
+    display: flex;
+    column-gap: 7px;
+}
+
+.keyboard-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body {
+    background-image: url(../src/assets/images/virtual_keyboard_background.jpg);
+    background-size: cover;
+    backdrop-filter: blur(15px);
+    height: 85vw;
+    margin: 0;
+}
+
+.backspace {
+    width: 133px;
+    height: 59px;
+}
+.TAB {
+    width: 133px;
+    height: 59px;
+}
+.Caps-lock {
+    width: 133px;
+    height: 59px;
+}
+.enter {
+    width: 133px;
+}
+
+.shift-left {
+    width: 170px;
+}
+
+.shift-right {
+    width: 170px;
+}
+
+.space {
+    width: 475px;
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    background: #343434;
+    box-shadow: inset 0px 11px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+

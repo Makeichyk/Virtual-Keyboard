@@ -1,0 +1,23 @@
+{
+  "name": "makeichyk-jsfe2022q1",
+  "version": "1.0.0",
+  "description": "Private repository for @makeichyk",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --env development",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "rss-scripts": "^0.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolling-scopes-school/makeichyk-JSFE2022Q1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rolling-scopes-school/makeichyk-JSFE2022Q1/issues"
+  },
+  "homepage": "https://github.com/rolling-scopes-school/makeichyk-JSFE2022Q1#readme"
+}
