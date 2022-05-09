@@ -1,0 +1,8 @@
+{
+    "htmlWhitespaceSensitivity": "css",
+    "printWidth": 100,
+    "tabWidth": 4,
+    "useTabs": false,
+    "singleQuote": false
+}
+
