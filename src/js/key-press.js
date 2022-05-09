@@ -1,5 +1,6 @@
 import { KEYS_CONFIG } from "./keyboard";
 import { switchLangEventHandler } from "./language-switch";
+import { isLetter } from "./keyboard";
 
 let isCapsLockActive = false;
 const activateCapsLock = () => {
@@ -19,17 +20,56 @@ const deactivateCapsLock = () => {
     document.querySelector(".CapsLock").classList.remove("active");
 };
 
-const initListeners = () => {
+const printValue = (value) => {
     const textarea = document.getElementById("textarea");
+    textarea.focus();
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const result = textarea.value;
+
+    textarea.value = result.slice(0, start) + value + result.slice(end);
+    textarea.setSelectionRange(start + value.length, start + value.length);
+};
+
+const backspaceValue = () => {
+    const textarea = document.getElementById("textarea");
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const result = textarea.value;
+
+    if (start === end) {
+        textarea.value = result.slice(0, start - 1) + result.slice(end);
+        textarea.setSelectionRange(start - 1, start - 1);
+    } else {
+        textarea.value = result.slice(0, start) + result.slice(end);
+        textarea.setSelectionRange(start, start);
+    }
+};
+
+const deleteValue = () => {
+    const textarea = document.getElementById("textarea");
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const result = textarea.value;
+
+    if (start === end) {
+        textarea.value = result.slice(0, start) + result.slice(end + 1);
+        textarea.setSelectionRange(start, start);
+    } else {
+        textarea.value = result.slice(0, start) + result.slice(end);
+        textarea.setSelectionRange(start, start);
+    }
+};
+
+const initListeners = () => {
     const keyboard = document.getElementById("keyboard");
 
     const handleKeyboardEvent = (keyboardEvent) => {
         const { lang, letterCase } = keyboard.dataset;
-
         const { code, shiftKey } = keyboardEvent;
-        keyboard.dataset.shift = shiftKey === true;
 
-        textarea.focus();
+        keyboard.dataset.shift = shiftKey === true;
 
         const animateCapsLockButton = () => {
             if (keyboardEvent.repeat) {
@@ -43,11 +83,14 @@ const initListeners = () => {
             }
         };
 
+        const keyConfig = KEYS_CONFIG[code];
         switch (code) {
-            case KEYS_CONFIG.Backquote.keyId:
             case KEYS_CONFIG.Backspace.keyId:
-            case KEYS_CONFIG.Tab.keyId:
+                backspaceValue();
+                break;
+
             case KEYS_CONFIG.Delete.keyId:
+                deleteValue();
                 break;
 
             case KEYS_CONFIG.CapsLock.keyId:
@@ -62,7 +105,11 @@ const initListeners = () => {
                 }
                 break;
 
+            case KEYS_CONFIG.Space.keyId:
+            case KEYS_CONFIG.Tab.keyId:
             case KEYS_CONFIG.Enter.keyId:
+                printValue(keyConfig.specialSymbol);
+                break;
             case KEYS_CONFIG.ShiftLeft.keyId:
             case KEYS_CONFIG.ShiftRight.keyId:
             case KEYS_CONFIG.MetaLeft.keyId:
@@ -75,18 +122,32 @@ const initListeners = () => {
                 switchLangEventHandler(keyboardEvent);
                 break;
             default: {
-                const keyConfig = KEYS_CONFIG[code];
                 if (!keyConfig) {
                     return;
                 }
 
-                console.error({
-                    lang,
-                    isCapsLockActive,
-                    isShift: keyboardEvent.shiftKey,
-                });
+                const isShift = keyboardEvent.shiftKey;
 
-                textarea.value += keyConfig[lang].value;
+                if (!isCapsLockActive && !isShift) {
+                    printValue(keyConfig[lang].value);
+                }
+                if (!isCapsLockActive && isShift) {
+                    printValue(keyConfig[lang].alt);
+                }
+                if (isCapsLockActive && !isShift) {
+                    printValue(
+                        isLetter(lang, keyboardEvent.code)
+                            ? keyConfig[lang].alt
+                            : keyConfig[lang].value
+                    );
+                }
+                if (isCapsLockActive && isShift) {
+                    printValue(
+                        isLetter(lang, keyboardEvent.code)
+                            ? keyConfig[lang].value
+                            : keyConfig[lang].alt
+                    );
+                }
 
                 break;
             }

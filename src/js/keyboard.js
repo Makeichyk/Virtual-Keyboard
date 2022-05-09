@@ -164,6 +164,7 @@ const KEYS_CONFIG = {
             value: "TAB",
             alt: "TAB",
         },
+        specialSymbol: "\t",
     },
     KeyQ: {
         keyId: "KeyQ",
@@ -462,6 +463,7 @@ const KEYS_CONFIG = {
             value: "Enter",
             alt: "Enter",
         },
+        specialSymbol: "\n",
     },
     ShiftLeft: {
         keyId: "ShiftLeft",
@@ -638,6 +640,7 @@ const KEYS_CONFIG = {
             value: "",
             alt: "",
         },
+        specialSymbol: " ",
     },
     AltRight: {
         keyId: "AltRight",
@@ -854,18 +857,16 @@ const keyMap = (keyConfig) => {
     </div>`;
 };
 
-
-
 const keyMapEng = (keyConfig) => {
     const isEngLetter = ENGLISH_LETTERS.includes(keyConfig);
-    return isEngLetter 
+    return isEngLetter
         ? `<span class="eng language">
         <span class="caseDown">${keyConfig.eng.value}</span>
         <span class="shiftCaps">${keyConfig.eng.value}</span>
         <span class="caseUp">${keyConfig.eng.alt}</span>
         <span class="caps">${keyConfig.eng.alt}</span>
-    </span>`    
-        :`<span class="eng language">
+    </span>`
+        : `<span class="eng language">
         <span class="caseDown">${keyConfig.eng.value}</span>
         <span class="shiftCaps">${keyConfig.eng.alt}</span>
         <span class="caseUp">${keyConfig.eng.alt}</span>
@@ -875,13 +876,13 @@ const keyMapEng = (keyConfig) => {
 
 const keyMapRus = (keyConfig) => {
     const isRusLetter = RUSSIAN_LETTERS.includes(keyConfig);
-    return isRusLetter 
+    return isRusLetter
         ? `<span class="rus language">
         <span class="caseDown">${keyConfig.rus.value}</span>
         <span class="shiftCaps">${keyConfig.rus.value}</span>
         <span class="caseUp">${keyConfig.rus.alt}</span>
         <span class="caps">${keyConfig.rus.alt}</span>
-    </span>` 
+    </span>`
         : `<span class="rus language">
         <span class="caseDown">${keyConfig.rus.value}</span>
         <span class="shiftCaps">${keyConfig.rus.alt}</span>
@@ -916,4 +917,17 @@ const keyboardMap = (keyboardConfig, language, isCaps) => {
 const initKeyboard = (language = "eng", isCaps = false) =>
     keyboardMap(KEYBOARD_CONFIG, language, isCaps);
 
-export { initKeyboard, KEYS_CONFIG };
+const isLetter = (language, eventCode) => {
+    switch (language) {
+        case "eng":
+            return ENGLISH_LETTERS.map((config) => config.keyId).includes(eventCode);
+            break;
+        case "rus":
+            return RUSSIAN_LETTERS.map((config) => config.keyId).includes(eventCode);
+            break;
+        default:
+            console.error("Unsupported language");
+    }
+};
+
+export { initKeyboard, KEYS_CONFIG, isLetter };
