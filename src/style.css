@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    user-select: none;
 }
 .wrapper {
     margin: 0 auto;
@@ -11,38 +12,41 @@
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
+    font-size: 36px;
+    resize: none;
+    max-width: 100%;
 }
 
 .key {
     width: 60px;
     height: 59px;
     background: #343434;
-    box-shadow: 0px 5px 4px rgba(0, 26, 255, 0.25);
+    box-shadow: 0px 5px 4px rgb(0 0 0 / 80%);
     border-radius: 15px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-family: 'Arial';
+    font-family: "Arial";
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
     line-height: 39px;
-    color: #4b59d7;
+    color: #fff;
+
+    transition: background-color 0.3s;
 }
 .key:hover {
-    background: #343434;
-    box-shadow: 0px 0px 5px 5px rgba(0, 26, 255, 0.3);
-    border-radius: 15px;
+    border: 1px solid white;
     cursor: pointer;
 }
 
-.arrow-up {
+.ArrowUp {
     height: 27px;
 }
 
-.arrow-down {
+.ArrowDown {
     height: 27px;
 }
 
@@ -58,6 +62,38 @@
     padding: 68px 28px 103px;
     margin-top: 80px;
 }
+
+.keyboard .key span.language {
+    display: none;
+}
+
+.keyboard[data-lang="eng"] .key span.language.eng {
+    display: block;
+}
+.keyboard[data-lang="rus"] .key span.language.rus {
+    display: block;
+}
+
+.keyboard .key span > span {
+    display: none;
+}
+
+.keyboard[data-caps-lock="true"][data-shift="true"] .key span > span.shiftCaps {
+    display: block;
+}
+.keyboard[data-caps-lock="true"][data-shift="false"] .key span > span.caps {
+    display: block;
+}
+.keyboard[data-caps-lock="false"][data-shift="true"] .key span > span.caseUp {
+    display: block;
+}
+.keyboard[data-caps-lock="false"][data-shift="false"] .key span > span.caseDown {
+    display: block;
+}
+/* .keyboard[data-letter-case="caseDown"] .key span > span.caseDown { display: block }
+.keyboard[data-letter-case="caps"] .key span > span.caps { display: block }
+.keyboard[data-letter-case="caseUp"] .key span > span.caseUp { display: block }
+.keyboard[data-letter-case="shiftCaps"] .key span > span.shiftCaps { display: block } */
 
 .keyboard-row {
     display: flex;
@@ -78,31 +114,31 @@ body {
     margin: 0;
 }
 
-.backspace {
+.Backspace {
     width: 133px;
     height: 59px;
 }
-.TAB {
+.Tab {
+    width: 68px;
+    height: 59px;
+}
+.CapsLock {
     width: 133px;
     height: 59px;
 }
-.Caps-lock {
-    width: 133px;
-    height: 59px;
-}
-.enter {
+.Enter {
     width: 133px;
 }
 
-.shift-left {
+.ShiftLeft {
+    width: 163px;
+}
+
+.ShiftRight {
     width: 170px;
 }
 
-.shift-right {
-    width: 170px;
-}
-
-.space {
+.Space {
     width: 475px;
 }
 
@@ -111,8 +147,11 @@ body {
 }
 
 .active {
-    background: #343434;
+    background-color: #688c99;
     box-shadow: inset 0px 11px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
 }
-
+.wrapper > p {
+    color: white;
+    font-size: 30px;
+    text-align: center;
+}
