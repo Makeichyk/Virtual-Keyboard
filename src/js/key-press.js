@@ -2,6 +2,7 @@ import { KEYS_CONFIG } from "./keyboard";
 import { switchLangEventHandler } from "./language-switch";
 import { isLetter } from "./keyboard";
 
+let isShiftActive = false;
 let isCapsLockActive = false;
 const activateCapsLock = () => {
     if (isCapsLockActive) {
@@ -39,8 +40,10 @@ const backspaceValue = () => {
     const result = textarea.value;
 
     if (start === end) {
-        textarea.value = result.slice(0, start - 1) + result.slice(end);
-        textarea.setSelectionRange(start - 1, start - 1);
+        const startPosition = start - 1 < 0 ? 0 : start - 1;
+
+        textarea.value = result.slice(0, startPosition) + result.slice(end);
+        textarea.setSelectionRange(startPosition, startPosition);
     } else {
         textarea.value = result.slice(0, start) + result.slice(end);
         textarea.setSelectionRange(start, start);
@@ -67,9 +70,11 @@ const initListeners = () => {
 
     const handleKeyboardEvent = (keyboardEvent) => {
         const { lang, letterCase } = keyboard.dataset;
-        const { code, shiftKey } = keyboardEvent;
+        const { code } = keyboardEvent;
 
-        keyboard.dataset.shift = shiftKey === true;
+        const shiftKey = keyboardEvent.shiftKey || isShiftActive;
+
+        keyboard.dataset.shift = shiftKey;
 
         const animateCapsLockButton = () => {
             if (keyboardEvent.repeat) {
@@ -126,22 +131,20 @@ const initListeners = () => {
                     return;
                 }
 
-                const isShift = keyboardEvent.shiftKey;
-
-                if (!isCapsLockActive && !isShift) {
+                if (!isCapsLockActive && !shiftKey) {
                     printValue(keyConfig[lang].value);
                 }
-                if (!isCapsLockActive && isShift) {
+                if (!isCapsLockActive && shiftKey) {
                     printValue(keyConfig[lang].alt);
                 }
-                if (isCapsLockActive && !isShift) {
+                if (isCapsLockActive && !shiftKey) {
                     printValue(
                         isLetter(lang, keyboardEvent.code)
                             ? keyConfig[lang].alt
                             : keyConfig[lang].value
                     );
                 }
-                if (isCapsLockActive && isShift) {
+                if (isCapsLockActive && shiftKey) {
                     printValue(
                         isLetter(lang, keyboardEvent.code)
                             ? keyConfig[lang].value
@@ -158,7 +161,7 @@ const initListeners = () => {
         keyboardEvent.stopPropagation();
         keyboardEvent.preventDefault();
 
-        const { shiftKey } = keyboardEvent;
+        const shiftKey = keyboardEvent.shiftKey || isShiftActive;
         keyboard.dataset.shift = shiftKey === true;
 
         if (keyboardEvent.code === KEYS_CONFIG.CapsLock.keyId) {
@@ -185,58 +188,49 @@ const initListeners = () => {
             document.querySelector(`.${keyboardEvent.code}`).classList.add("active");
     });
 
-    // {
-    //     let pressedKey;
+    let pressedKey;
 
-    //     document.addEventListener('mousedown', function (mouseEvent) {
-    //         const keyTargetElement = mouseEvent.path.find(
-    //             (targetElement) =>
-    //                 targetElement.classList && targetElement.classList.contains('key')
-    //         );
+    document.addEventListener("mousedown", function (mouseEvent) {
+        const keyTargetElement = mouseEvent.path.find(
+            (targetElement) => targetElement.classList && targetElement.classList.contains("key")
+        );
 
-    //         if (!keyTargetElement) {
-    //             return;
-    //         }
+        if (!keyTargetElement) {
+            return;
+        }
 
-    //         pressedKey = keyTargetElement;
+        mouseEvent.stopImmediatePropagation();
+        mouseEvent.preventDefault();
 
-    //         document.dispatchEvent(
-    //             new KeyboardEvent('keydown', {
-    //                 code: pressedKey.dataset.keyCode,
-    //             })
-    //         );
+        pressedKey = keyTargetElement;
+        isShiftActive = ["ShiftRight", "ShiftLeft"].includes(pressedKey.dataset.keyCode);
 
-    //         handleKeyDown();
+        document.dispatchEvent(
+            new KeyboardEvent("keydown", {
+                code: pressedKey.dataset.keyCode,
+                shiftKey: mouseEvent.shiftKey,
+            })
+        );
+    });
 
-    //         const textarea = document.getElementById('textarea');
+    document.addEventListener("mouseup", function (mouseEvent) {
+        if (!pressedKey) {
+            return;
+        }
 
-    //         switch (pressedKey.dataset.keyCode) {
-    //             case 'Backspace':
-    //                 // textareaValue > 0 &&
-    //                 //     textareaValue <= e.length &&
-    //                 //     ((e = e.slice(0, textareaValue - 1) + e.slice(textareaValue, e.length)),
-    //                 //     (this.textarea.value = e),
-    //                 //     (this.textarea.selectionStart = textareaValue - 1),
-    //                 //     (this.textarea.selectionEnd = textareaValue - 1));
-    //                 break;
-    //             default:
-    //                 textarea.value = textarea.value + keyboardEvent.key;
-    //                 break;
-    //         }
-    //     });
+        mouseEvent.stopImmediatePropagation();
+        mouseEvent.preventDefault();
 
-    //     document.addEventListener('mouseup', function () {
-    //         if (!pressedKey) {
-    //             return;
-    //         }
+        isShiftActive = ["ShiftRight", "ShiftLeft"].includes(pressedKey.dataset.keyCode)
+            ? false
+            : isShiftActive;
 
-    //         document.dispatchEvent(
-    //             new KeyboardEvent('keyup', {
-    //                 code: pressedKey.dataset.keyCode,
-    //             })
-    //         );
-    //     });
-    // }
+        document.dispatchEvent(
+            new KeyboardEvent("keyup", {
+                code: pressedKey.dataset.keyCode,
+            })
+        );
+    });
 };
 
 export { initListeners };

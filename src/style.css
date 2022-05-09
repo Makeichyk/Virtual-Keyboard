@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,200&display=swap");
+
 * {
     box-sizing: border-box;
     user-select: none;
@@ -5,16 +7,28 @@
 .wrapper {
     margin: 0 auto;
     width: 1060px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: stretch;
+    row-gap: 20px;
 }
 
 .textarea {
-    margin-top: 100px;
+    padding: 23px;
+    margin-top: 20px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    border-radius: 10px;
+    border-radius: 30px;
     font-size: 36px;
     resize: none;
     max-width: 100%;
+}
+
+.textarea:focus {
+    outline: none !important;
 }
 
 .key {
@@ -28,14 +42,14 @@
     align-items: center;
     justify-content: center;
 
-    font-family: "Arial";
+    font-family: "Roboto Flex";
     font-style: normal;
-    font-weight: 400;
+    font-weight: 200;
     font-size: 24px;
     line-height: 39px;
     color: #fff;
 
-    transition: background-color 0.3s;
+    transition: background-color 0.4s;
 }
 .key:hover {
     border: 1px solid white;
@@ -60,7 +74,6 @@
     box-sizing: border-box;
     border-radius: 28px;
     padding: 68px 28px 103px;
-    margin-top: 80px;
 }
 
 .keyboard .key span.language {
@@ -90,10 +103,6 @@
 .keyboard[data-caps-lock="false"][data-shift="false"] .key span > span.caseDown {
     display: block;
 }
-/* .keyboard[data-letter-case="caseDown"] .key span > span.caseDown { display: block }
-.keyboard[data-letter-case="caps"] .key span > span.caps { display: block }
-.keyboard[data-letter-case="caseUp"] .key span > span.caseUp { display: block }
-.keyboard[data-letter-case="shiftCaps"] .key span > span.shiftCaps { display: block } */
 
 .keyboard-row {
     display: flex;
@@ -107,10 +116,10 @@
 }
 
 body {
-    background-image: url(../src/assets/images/virtual_keyboard_background.jpg);
+    background-image: linear-gradient(to right, #c0392b, #8e44ad);
     background-size: cover;
     backdrop-filter: blur(15px);
-    height: 85vw;
+    height: 100vh;
     margin: 0;
 }
 
@@ -142,16 +151,15 @@ body {
     width: 475px;
 }
 
-.hidden {
-    display: none;
-}
-
 .active {
     background-color: #688c99;
     box-shadow: inset 0px 11px 4px rgba(0, 0, 0, 0.25);
 }
-.wrapper > p {
+.wrapper > div p {
     color: white;
     font-size: 30px;
     text-align: center;
+    font-family: "Roboto Flex", sans-serif;
+    font-weight: 100;
+    margin: 2px;
 }

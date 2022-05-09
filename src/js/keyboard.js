@@ -1,6 +1,6 @@
 const KEYS_CONFIG = {
     Backquote: {
-        keyId: "Backquote", // event.code
+        keyId: "Backquote",
         eng: {
             value: "`",
             alt: "~",
@@ -81,7 +81,7 @@ const KEYS_CONFIG = {
         keyId: "Digit7",
         eng: {
             value: "7",
-            alt: "&amp;",
+            alt: "&",
         },
         rus: {
             value: "7",
@@ -157,12 +157,12 @@ const KEYS_CONFIG = {
     Tab: {
         keyId: "Tab",
         eng: {
-            value: "TAB",
-            alt: "TAB",
+            value: "Tab",
+            alt: "Tab",
         },
         rus: {
-            value: "TAB",
-            alt: "TAB",
+            value: "Tab",
+            alt: "Tab",
         },
         specialSymbol: "\t",
     },
@@ -312,12 +312,12 @@ const KEYS_CONFIG = {
     Delete: {
         keyId: "Delete",
         eng: {
-            value: "DEL",
-            alt: "DEL",
+            value: "Del",
+            alt: "Del",
         },
         rus: {
-            value: "DEL",
-            alt: "DEL",
+            value: "Del",
+            alt: "Del",
         },
     },
     CapsLock: {
@@ -557,7 +557,7 @@ const KEYS_CONFIG = {
         keyId: "Comma",
         eng: {
             value: ",",
-            alt: "&lt;",
+            alt: "<",
         },
         rus: {
             value: "б",
@@ -568,7 +568,7 @@ const KEYS_CONFIG = {
         keyId: "Period",
         eng: {
             value: ".",
-            alt: "&gt;",
+            alt: ">",
         },
         rus: {
             value: "ю",
@@ -667,45 +667,45 @@ const KEYS_CONFIG = {
     ArrowLeft: {
         keyId: "ArrowLeft",
         eng: {
-            value: "◀",
-            alt: "◀",
+            value: "◂",
+            alt: "◂",
         },
         rus: {
-            value: "◀",
-            alt: "◀",
+            value: "◂",
+            alt: "◂",
         },
     },
     ArrowUp: {
         keyId: "ArrowUp",
         eng: {
-            value: "▲",
-            alt: "▲",
+            value: "▴",
+            alt: "▴",
         },
         rus: {
-            value: "▲",
-            alt: "▲",
+            value: "▴",
+            alt: "▴",
         },
     },
     ArrowDown: {
         keyId: "ArrowDown",
         eng: {
-            value: "▼",
-            alt: "▼",
+            value: "▾",
+            alt: "▾",
         },
         rus: {
-            value: "▼",
-            alt: "▼",
+            value: "▾",
+            alt: "▾",
         },
     },
     ArrowRight: {
         keyId: "ArrowRight",
         eng: {
-            value: "▶",
-            alt: "▶",
+            value: "▸",
+            alt: "▸",
         },
         rus: {
-            value: "▶",
-            alt: "▶",
+            value: "▸",
+            alt: "▸",
         },
     },
 };
@@ -926,7 +926,7 @@ const isLetter = (language, eventCode) => {
             return RUSSIAN_LETTERS.map((config) => config.keyId).includes(eventCode);
             break;
         default:
-            console.error("Unsupported language");
+            console.error("Unsupported language", language);
     }
 };
 
